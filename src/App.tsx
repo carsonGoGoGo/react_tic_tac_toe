@@ -16,7 +16,7 @@ class App extends React.Component<IAppProps, IAppState> {
         super(props);
         this.state = {
             board: new Array(9).fill('O'),
-            curSymbol: 'x',
+            curSymbol: 'X',
         }
     }
 
@@ -33,7 +33,7 @@ class App extends React.Component<IAppProps, IAppState> {
     };
 
     flipCurrentSymbol = (symbol: string): string => {
-        return symbol === 'X' ? 'O' : 'X';
+        return symbol === 'O' ? 'X' : 'O';
     };
 
     render() {
@@ -64,19 +64,19 @@ class Board extends React.Component<IBoardProps, IBoardState> {
         return (
             <div className="row-wrapper">
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[0]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[1]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[2]}</div>
+                    <div onClick={(e: any) => this.props.onClick(0)}>{this.props.array[0]}</div>
+                    <div onClick={(e: any) => this.props.onClick(1)}>{this.props.array[1]}</div>
+                    <div onClick={(e: any) => this.props.onClick(2)}>{this.props.array[2]}</div>
                 </div>
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[3]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[4]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[5]}</div>
+                    <div onClick={(e: any) => this.props.onClick(3)}>{this.props.array[3]}</div>
+                    <div onClick={(e: any) => this.props.onClick(4)}>{this.props.array[4]}</div>
+                    <div onClick={(e: any) => this.props.onClick(5)}>{this.props.array[5]}</div>
                 </div>
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[6]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[7]}</div>
-                    <div onClick={(e: any) => this.props.onClick(e)}>{this.props.array[8]}</div>
+                    <div onClick={(e: any) => this.props.onClick(6)}>{this.props.array[6]}</div>
+                    <div onClick={(e: any) => this.props.onClick(7)}>{this.props.array[7]}</div>
+                    <div onClick={(e: any) => this.props.onClick(8)}>{this.props.array[8]}</div>
                 </div>
             </div>
         )
