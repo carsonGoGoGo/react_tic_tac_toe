@@ -21,11 +21,13 @@ class App extends React.Component<IAppProps, IAppState> {
     }
 
     handleClick = (index: number) => {
-
-
-        this.state.board[index] = this.state.nextSymbol;
+        if (this.isSetable(index)) {
+            this.state.board[index] = this.state.nextSymbol;
+        } else {
+            return;
+        }
         this.setState({
-            board:this.state.board
+            board: this.state.board
         });
         const updatedSymbol = this.flipCurrentSymbol(this.state.nextSymbol);
         this.setState({
@@ -35,6 +37,13 @@ class App extends React.Component<IAppProps, IAppState> {
 
     flipCurrentSymbol = (symbol: string): string => {
         return symbol === 'O' ? 'X' : 'O';
+    };
+
+    /**
+     * deterimine this grid could be filled or not
+     */
+    isSetable = (index: number) => {
+        return this.state.board[index] == '0';
     };
 
     render() {
