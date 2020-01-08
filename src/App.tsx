@@ -8,28 +8,29 @@ interface IAppProps {
 
 interface IAppState {
     board: string[];
-    curSymbol: string;
+    nextSymbol: string;
 }
 
 class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            board: new Array(9).fill('O'),
-            curSymbol: 'X',
+            board: new Array(9).fill('0'),
+            nextSymbol: 'X',
         }
     }
 
     handleClick = (index: number) => {
-        const updatedSymbol = this.flipCurrentSymbol(this.state.curSymbol);
-        this.setState({
-            curSymbol: updatedSymbol
-        });
 
-        this.state.board[index] = this.state.curSymbol;
+
+        this.state.board[index] = this.state.nextSymbol;
         this.setState({
             board:this.state.board
-        })
+        });
+        const updatedSymbol = this.flipCurrentSymbol(this.state.nextSymbol);
+        this.setState({
+            nextSymbol: updatedSymbol
+        });
     };
 
     flipCurrentSymbol = (symbol: string): string => {
