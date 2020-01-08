@@ -9,14 +9,16 @@ interface IAppProps {
 interface IAppState {
     board: string[];
     nextSymbol: string;
+    gameStatus: string;
 }
 
 class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            gameStatus: "on Going ...",
             board: new Array(9).fill('0'),
-            nextSymbol: 'X',
+            nextSymbol: 'X'
         }
     }
 
@@ -35,6 +37,10 @@ class App extends React.Component<IAppProps, IAppState> {
         });
     };
 
+    // checkWinner = ():boolean=>{
+    //
+    // };
+
     flipCurrentSymbol = (symbol: string): string => {
         return symbol === 'O' ? 'X' : 'O';
     };
@@ -49,6 +55,8 @@ class App extends React.Component<IAppProps, IAppState> {
     render() {
         return (
             <div className="App">
+                <h3>next player is: {this.state.nextSymbol}</h3>
+                <h3>Game is {this.state.gameStatus}  </h3>
                 <Board onClick={this.handleClick} array={this.state.board}/>
             </div>
         )
