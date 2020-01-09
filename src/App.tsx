@@ -10,12 +10,14 @@ interface IAppState {
     board: string[];
     nextSymbol: string;
     gameStatus: string;
+    history: any[];
 }
 
 class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            history: [{status: new Array(9).fill('0')}],
             gameStatus: "on Going ...",
             board: new Array(9).fill('0'),
             nextSymbol: 'X'
@@ -25,6 +27,13 @@ class App extends React.Component<IAppProps, IAppState> {
     handleClick = (index: number) => {
         if (this.isSetable(index)) {
             this.state.board[index] = this.state.nextSymbol;
+            let newHistory = this.state.history.slice();
+
+            let length = this.state.history.length;
+            newHistory.push({
+                status: this.state.history[length-1].status
+            });
+            this.setState({history: newHistory})
         } else {
             return;
         }
@@ -52,12 +61,21 @@ class App extends React.Component<IAppProps, IAppState> {
         return this.state.board[index] == '0';
     };
 
+    /**
+     * time travel
+     */
+    handleGoBack = () => {
+        console.log("go back hhaha ")
+    };
+
     render() {
         return (
             <div className="App">
                 <h3>next player is: {this.state.nextSymbol}</h3>
                 <h3>Game is {this.state.gameStatus}  </h3>
-                <Board onClick={this.handleClick} array={this.state.board}/>
+                <Board onClick={this.handleClick} array={this.state.history[0]}/>
+
+                <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
             </div>
         )
     }
@@ -100,3 +118,9 @@ class Board extends React.Component<IBoardProps, IBoardState> {
         )
     }
 }
+
+// function Square(props) {
+//     return <div onClick={props.onClick}>
+//         {props.array.status}
+//     </div>
+// }
