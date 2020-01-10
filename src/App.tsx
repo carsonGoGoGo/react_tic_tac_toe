@@ -46,10 +46,6 @@ class App extends React.Component<IAppProps, IAppState> {
         });
     };
 
-    // checkWinner = ():boolean=>{
-    //
-    // };
-
     flipCurrentSymbol = (symbol: string): string => {
         return symbol === 'O' ? 'X' : 'O';
     };
@@ -69,11 +65,13 @@ class App extends React.Component<IAppProps, IAppState> {
     };
 
     render() {
+        const length = this.state.history.length;
+        const current = this.state.history[length - 1];
         return (
             <div className="App">
                 <h3>next player is: {this.state.nextSymbol}</h3>
                 <h3>Game is {this.state.gameStatus}  </h3>
-                <Board onClick={this.handleClick} array={this.state.history[0]}/>
+                <Board onClick={this.handleClick} array={current}/>
 
                 <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
             </div>
@@ -96,29 +94,34 @@ interface IBoardState {
 }
 
 class Board extends React.Component<IBoardProps, IBoardState> {
+
     render() {
+        const current = this.props.array;
         return (
             <div className="row-wrapper">
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(0)}>{this.props.array[0]}</div>
-                    <div onClick={(e: any) => this.props.onClick(1)}>{this.props.array[1]}</div>
-                    <div onClick={(e: any) => this.props.onClick(2)}>{this.props.array[2]}</div>
+                    <div onClick={(e: any) => this.props.onClick(0)}>{current[0]}</div>
+                    <div onClick={(e: any) => this.props.onClick(1)}>{current[1]}</div>
+                    <div onClick={(e: any) => this.props.onClick(2)}>{current[2]}</div>
                 </div>
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(3)}>{this.props.array[3]}</div>
-                    <div onClick={(e: any) => this.props.onClick(4)}>{this.props.array[4]}</div>
-                    <div onClick={(e: any) => this.props.onClick(5)}>{this.props.array[5]}</div>
+                    <div onClick={(e: any) => this.props.onClick(3)}>{current[3]}</div>
+                    <div onClick={(e: any) => this.props.onClick(4)}>{current[4]}</div>
+                    <div onClick={(e: any) => this.props.onClick(5)}>{current[5]}</div>
                 </div>
                 <div className="row">
-                    <div onClick={(e: any) => this.props.onClick(6)}>{this.props.array[6]}</div>
-                    <div onClick={(e: any) => this.props.onClick(7)}>{this.props.array[7]}</div>
-                    <div onClick={(e: any) => this.props.onClick(8)}>{this.props.array[8]}</div>
+                    <div onClick={(e: any) => this.props.onClick(6)}>{current[6]}</div>
+                    <div onClick={(e: any) => this.props.onClick(7)}>{current[7]}</div>
+                    <div onClick={(e: any) => this.props.onClick(8)}>{current[8]}</div>
                 </div>
             </div>
         )
     }
 }
 
+/**
+ *  every single grid
+ */
 // function Square(props) {
 //     return <div onClick={props.onClick}>
 //         {props.array.status}
