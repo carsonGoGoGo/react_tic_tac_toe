@@ -7,7 +7,6 @@ interface IAppProps {
 }
 
 interface IAppState {
-    board: string[];
     nextSymbol: string;
     gameStatus: string;
     history: any[];
@@ -17,34 +16,54 @@ class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            history: [{status: new Array(9).fill('0')}],
+            history: [{ status: new Array(9).fill('0') }],
             gameStatus: "on Going ...",
-            board: new Array(9).fill('0'),
             nextSymbol: 'X'
         }
     }
 
     handleClick = (index: number) => {
-        if (this.isSetable(index)) {
-            this.state.board[index] = this.state.nextSymbol;
-            let newHistory = this.state.history.slice();
+        const len = this.state.history.length;
+        const current = this.state.history[len - 1];
+        const { nextSymbol } = this.state;
 
-            let length = this.state.history.length;
-            newHistory.push({
-                status: this.state.history[length-1].status
-            });
-            this.setState({history: newHistory})
-        } else {
-            return;
+        if (current.status[index] == '0') {
+            const newCurrent = current.status.slice();
+            newCurrent[index] = nextSymbol;
+            const newHistory = this.state.history.slice();
+            newHistory.push({ status: newCurrent });
+
+            const newNextSymbol = this.flipCurrentSymbol(nextSymbol);
+            this.setState({ history: newHistory, nextSymbol: newNextSymbol });
+            this.determineWinner();
         }
-        this.setState({
-            board: this.state.board
-        });
-        const updatedSymbol = this.flipCurrentSymbol(this.state.nextSymbol);
-        this.setState({
-            nextSymbol: updatedSymbol
-        });
     };
+
+    determineWinner = () => {
+        const len = this.state.history.length;
+        const currentBoard = this.state.history[len - 1];
+
+        if (currentBoard.status[0] !== '0') {
+            if (currentBoard.status[0] == currentBoard.status[1] == currentBoard.status[2]) {
+                this.setState({ gameStatus: 'game is over' })
+            } else if (currentBoard.status[0] == currentBoard.status[3] == currentBoard.status[6]) {
+                this.setState({ gameStatus: 'game is over' })
+            } else if (currentBoard.status[0] == currentBoard.status[4] == currentBoard.status[8]) {
+                this.setState({ gameStatus: 'game is over' })
+            } else if (currentBoard.stattus[3] == currentBoard.status[4] == currentBoard.status[5]) {
+                this.setState({ gameStatus: 'game is over' })
+            } else if (currentBoard.status[6] == currentBoard.status[7] == currentBoard.status[8]) {
+                this.setState({ gameStatus: 'game is over' })
+            }
+        }
+
+    };
+
+
+    // process = () => {
+    //     ()=>{}, 
+    //     ()=>{},
+    // }
 
     flipCurrentSymbol = (symbol: string): string => {
         return symbol === 'O' ? 'X' : 'O';
@@ -54,7 +73,9 @@ class App extends React.Component<IAppProps, IAppState> {
      * deterimine this grid could be filled or not
      */
     isSetable = (index: number) => {
-        return this.state.board[index] == '0';
+        const len = this.state.history.length;
+        const current = this.state.history[len - 1];
+        return current.status[index] == '0';
     };
 
     /**
@@ -71,9 +92,9 @@ class App extends React.Component<IAppProps, IAppState> {
             <div className="App">
                 <h3>next player is: {this.state.nextSymbol}</h3>
                 <h3>Game is {this.state.gameStatus}  </h3>
-                <Board onClick={this.handleClick} array={current}/>
+                <Board onClick={this.handleClick} object={current} />
 
-                <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
+                <button style={{ marginTop: '20px' }} onClick={this.handleGoBack}>go back</button>
             </div>
         )
     }
@@ -85,7 +106,7 @@ export default App;
  *
  */
 interface IBoardProps {
-    array: string[];
+    object: { status: string[] };
     onClick: (index: number) => void;
 }
 
@@ -96,7 +117,7 @@ interface IBoardState {
 class Board extends React.Component<IBoardProps, IBoardState> {
 
     render() {
-        const current = this.props.array;
+        const current = this.props.object.status;
         return (
             <div className="row-wrapper">
                 <div className="row">
