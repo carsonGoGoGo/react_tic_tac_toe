@@ -16,7 +16,7 @@ class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            history: [{ status: new Array(9).fill('0') }],
+            history: [{status: new Array(9).fill('0')}],
             gameStatus: "on Going ...",
             nextSymbol: 'X'
         }
@@ -25,16 +25,16 @@ class App extends React.Component<IAppProps, IAppState> {
     handleClick = (index: number) => {
         const len = this.state.history.length;
         const current = this.state.history[len - 1];
-        const { nextSymbol } = this.state;
+        const {nextSymbol} = this.state;
 
         if (current.status[index] == '0') {
             const newCurrent = current.status.slice();
             newCurrent[index] = nextSymbol;
             const newHistory = this.state.history.slice();
-            newHistory.push({ status: newCurrent });
+            newHistory.push({status: newCurrent});
 
             const newNextSymbol = this.flipCurrentSymbol(nextSymbol);
-            this.setState({ history: newHistory, nextSymbol: newNextSymbol });
+            this.setState({history: newHistory, nextSymbol: newNextSymbol});
             this.determineWinner();
         }
     };
@@ -43,7 +43,26 @@ class App extends React.Component<IAppProps, IAppState> {
         const len = this.state.history.length;
         const currentBoard = this.state.history[len - 1];
 
-        
+        if (currentBoard.status[0] !== '0') {
+            if (currentBoard.status[0] == currentBoard.status[1] && currentBoard.status[1] == currentBoard.status[2]) {
+                this.setState({gameStatus: 'game is over '});
+            } else if (currentBoard.status[3] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[5]) {
+                this.setState({gameStatus: 'game is over '});
+            } else if (currentBoard.status[6] == currentBoard.status[7] && currentBoard.status[7] == currentBoard.status[8]) {
+                this.setState({gameStatus: 'game is over '});
+            } else if (currentBoard.status[0] == currentBoard.status[3] && currentBoard.status[3] == currentBoard.status[6]) {
+                this.setState({gameStatus: 'game is over'});
+            } else if (currentBoard.status[1] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[7]) {
+                this.setState({gameStatus: 'game is over'});
+            } else if (currentBoard.status[2] == currentBoard.status[5] && currentBoard.status[5] == currentBoard.status[7]) {
+                this.setState({gameStatus: 'game is over'});
+            } else if (currentBoard.status[0] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[8]) {
+                this.setState({gameStatus: 'game is over'});
+            } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2]) {
+                this.setState({gameStatus: 'game is over'})
+            }
+        }
+
         //
         // if (currentBoard.status[0] !== '0') {
         //     if (currentBoard.status[0] == currentBoard.status[1] == currentBoard.status[2]) {
@@ -94,9 +113,9 @@ class App extends React.Component<IAppProps, IAppState> {
             <div className="App">
                 <h3>next player is: {this.state.nextSymbol}</h3>
                 <h3>Game is {this.state.gameStatus}  </h3>
-                <Board onClick={this.handleClick} object={current} />
+                <Board onClick={this.handleClick} object={current}/>
 
-                <button style={{ marginTop: '20px' }} onClick={this.handleGoBack}>go back</button>
+                <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
             </div>
         )
     }
