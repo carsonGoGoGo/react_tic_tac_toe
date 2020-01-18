@@ -61,6 +61,8 @@ class App extends React.Component<IAppProps, IAppState> {
             } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2]) {
                 this.setState({gameStatus: 'game is over'})
             }
+
+
         }
 
         //
