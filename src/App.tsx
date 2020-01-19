@@ -39,46 +39,33 @@ class App extends React.Component<IAppProps, IAppState> {
         }
     };
 
+
     determineWinner = () => {
         const len = this.state.history.length;
         const currentBoard = this.state.history[len - 1];
 
         if (currentBoard.status[0] !== '0') {
-            if (currentBoard.status[0] == currentBoard.status[1] && currentBoard.status[1] == currentBoard.status[2]) {
+            if (currentBoard.status[0] == currentBoard.status[1] && currentBoard.status[1] == currentBoard.status[2] && currentBoard.status[2]!=='0') {
                 this.setState({gameStatus: 'game is over '});
-            } else if (currentBoard.status[3] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[5]) {
+            } else if (currentBoard.status[3] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[5] && currentBoard.status[3] !== '0') {
                 this.setState({gameStatus: 'game is over '});
-            } else if (currentBoard.status[6] == currentBoard.status[7] && currentBoard.status[7] == currentBoard.status[8]) {
+            } else if (currentBoard.status[6] == currentBoard.status[7] && currentBoard.status[7] == currentBoard.status[8] && currentBoard.status[6] !== '0') {
                 this.setState({gameStatus: 'game is over '});
-            } else if (currentBoard.status[0] == currentBoard.status[3] && currentBoard.status[3] == currentBoard.status[6]) {
+            } else if (currentBoard.status[0] == currentBoard.status[3] && currentBoard.status[3] == currentBoard.status[6] && currentBoard.status[6] !== '0') {
                 this.setState({gameStatus: 'game is over'});
-            } else if (currentBoard.status[1] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[7]) {
+            } else if (currentBoard.status[1] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[7] && currentBoard.status[1] !== '0') {
                 this.setState({gameStatus: 'game is over'});
-            } else if (currentBoard.status[2] == currentBoard.status[5] && currentBoard.status[5] == currentBoard.status[7]) {
+            } else if (currentBoard.status[2] == currentBoard.status[5] && currentBoard.status[5] == currentBoard.status[7] && currentBoard.status[2] !== '0') {
                 this.setState({gameStatus: 'game is over'});
-            } else if (currentBoard.status[0] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[8]) {
+            } else if (currentBoard.status[0] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[8] && currentBoard.status[0] !== '0') {
                 this.setState({gameStatus: 'game is over'});
-            } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2]) {
+            } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2] && currentBoard.status[6] !== '0') {
                 this.setState({gameStatus: 'game is over'})
             }
 
 
         }
 
-        //
-        // if (currentBoard.status[0] !== '0') {
-        //     if (currentBoard.status[0] == currentBoard.status[1] == currentBoard.status[2]) {
-        //         this.setState({ gameStatus: 'game is over' })
-        //     } else if (currentBoard.status[0] == currentBoard.status[3] == currentBoard.status[6]) {
-        //         this.setState({ gameStatus: 'game is over' })
-        //     } else if (currentBoard.status[0] == currentBoard.status[4] == currentBoard.status[8]) {
-        //         this.setState({ gameStatus: 'game is over' })
-        //     } else if (currentBoard.stattus[3] == currentBoard.status[4] == currentBoard.status[5]) {
-        //         this.setState({ gameStatus: 'game is over' })
-        //     } else if (currentBoard.status[6] == currentBoard.status[7] == currentBoard.status[8]) {
-        //         this.setState({ gameStatus: 'game is over' })
-        //     }
-        // }
 
     };
 
