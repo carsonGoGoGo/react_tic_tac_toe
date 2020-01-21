@@ -1,46 +1,85 @@
 import React from 'react';
 import './App.css';
 
+interface IBoard{
+    status: string[];
+}
 
 interface IAppProps {
 
 }
 
 interface IAppState {
-    nextSymbol: string;
+    currentSymbol: string;
     gameStatus: string;
-    history: any[];
+    history: IBoard[];
+
+    msg: string;
 }
 
 class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            msg: '' ,
             history: [{status: new Array(9).fill('0')}],
             gameStatus: "on Going ...",
-            nextSymbol: 'X'
+            currentSymbol: 'X'
         }
     }
 
     handleClick = (index: number) => {
         const len = this.state.history.length;
         const current = this.state.history[len - 1];
-        const {nextSymbol} = this.state;
+        const {currentSymbol} = this.state;
 
-        if (current.status[index] == '0') {
-            const newCurrent = current.status.slice();
-            newCurrent[index] = nextSymbol;
-            const newHistory = this.state.history.slice();
-            newHistory.push({status: newCurrent});
 
-            const newNextSymbol = this.flipCurrentSymbol(nextSymbol);
-            this.setState({history: newHistory, nextSymbol: newNextSymbol});
-            this.determineWinner();
+        if (current.status[index] == '0'){
+            // it is not taken ;
+
+            if (this.isGameOver()){
+                this.setState({gameStatus: 'game is over'})
+            }else {
+                const currentHistory = this.state.history;
+
+
+                const newHistory = current.status.slice();
+                newHistory[index] = this.state.currentSymbol;
+
+                currentHistory.push({status: newHistory});
+                const nextSymbol = this.state.currentSymbol;
+                this.setState({history: currentHistory, currentSymbol: nextSymbol})
+            }
         }
+
+
+
+
+
+        //
+        // if (current.status[index] == '0') {
+        //     const newCurrent = current.status.slice();
+        //     newCurrent[index] = nextSymbol;
+        //     const newHistory = this.state.history.slice();
+        //     newHistory.push({status: newCurrent});
+        //
+        //     const newNextSymbol = this.flipCurrentSymbol(nextSymbol);
+        //     if (this.isGameOver()){
+        //         this.setState({history: newHistory, nextSymbol: newNextSymbol});
+        //     }else{
+        //         this.setState({gameStatus: 'game is over'});
+        //     }
+        // }else{
+        //     this.setState({msg: 'space taken!'})
+        // }
     };
 
 
-    determineWinner = () => {
+    // let me make this clear
+    // first of all, if it is not set, then it is setable 
+    // second, if the game is not over, then set new symbol
+
+    isGameOver = ():boolean => {
         const len = this.state.history.length;
         const currentBoard = this.state.history[len - 1];
 
@@ -62,11 +101,9 @@ class App extends React.Component<IAppProps, IAppState> {
             } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2] && currentBoard.status[6] !== '0') {
                 this.setState({gameStatus: 'game is over'})
             }
-
-
+            return false;
         }
-
-
+        return true;
     };
 
 
@@ -92,7 +129,10 @@ class App extends React.Component<IAppProps, IAppState> {
      * time travel
      */
     handleGoBack = () => {
-        console.log("go back hhaha ")
+        const length = this.state.history.length;
+        const previousBoard = this.state.history[length - 1 - 1];
+
+        // this.setState({history: previousBoard})
     };
 
     render() {
@@ -100,11 +140,14 @@ class App extends React.Component<IAppProps, IAppState> {
         const current = this.state.history[length - 1];
         return (
             <div className="App">
-                <h3>next player is: {this.state.nextSymbol}</h3>
+                <h3>next player is: {this.state.currentSymbol}</h3>
                 <h3>Game is {this.state.gameStatus}  </h3>
                 <Board onClick={this.handleClick} object={current}/>
 
                 <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
+                <div>
+                    {this.state.msg}
+                </div>
             </div>
         )
     }
