@@ -56,6 +56,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
 
 
+
         //
         // if (current.status[index] == '0') {
         //     const newCurrent = current.status.slice();
