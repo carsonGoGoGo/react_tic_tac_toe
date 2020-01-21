@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-interface IBoard{
+interface IBoard {
     status: string[];
 }
 
@@ -13,7 +13,6 @@ interface IAppState {
     currentSymbol: string;
     gameStatus: string;
     history: IBoard[];
-
     msg: string;
 }
 
@@ -21,7 +20,7 @@ class App extends React.Component<IAppProps, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            msg: '' ,
+            msg: '',
             history: [{status: new Array(9).fill('0')}],
             gameStatus: "on Going ...",
             currentSymbol: 'X'
@@ -30,39 +29,24 @@ class App extends React.Component<IAppProps, IAppState> {
 
     handleClick = (index: number) => {
         const len = this.state.history.length;
-        const current = this.state.history[len - 1];
+        const currentBoard = this.state.history[len - 1];
 
-        const {currentSymbol} = this.state;
+        if (currentBoard.status[index] == '0') {
 
-        // if (current.status[index] == '0') {
-        //     const newCurrent = current.status.slice();
-        //     newCurrent[index] = currentSymbol;
-        //     const newHistory = this.state.history.slice();
-        //     newHistory.push({status: newCurrent});
-        //
-        //     const newNextSymbol = this.flipCurrentSymbol(currentSymbol);
-        //     this.setState({history: newHistory, nextSymbol: newNextSymbol});
-        //     this.determineWinner();
-        //
-        // const {currentSymbol} = this.state;
+            // this place is clickable
+            const currentHistory = this.state.history;
+            const currentSymbol = this.state.currentSymbol;
+            const nextSymbol = this.flipCurrentSymbol(currentSymbol);
+            const newHistory = currentBoard.status.slice();
+            newHistory[index] = this.state.currentSymbol;
+            currentHistory.push({status: newHistory});
+            this.setState({history: currentHistory, currentSymbol: nextSymbol, msg:''});
 
-
-        if (current.status[index] == '0'){
-            // it is not taken ;
-
-            if (this.isGameOver()){
+            if (this.isGameOver()) {
                 this.setState({gameStatus: 'game is over'})
-            }else {
-                const currentHistory = this.state.history;
-
-
-                const newHistory = current.status.slice();
-                newHistory[index] = this.state.currentSymbol;
-
-                currentHistory.push({status: newHistory});
-                const nextSymbol = this.state.currentSymbol;
-                this.setState({history: currentHistory, currentSymbol: nextSymbol})
             }
+        }else {
+            this.setState({msg: 'space taken!'})
         }
     };
 
@@ -71,12 +55,12 @@ class App extends React.Component<IAppProps, IAppState> {
     // first of all, if it is not set, then it is setable 
     // second, if the game is not over, then set new symbol
 
-    isGameOver = ():boolean => {
+    isGameOver = (): boolean => {
         const len = this.state.history.length;
         const currentBoard = this.state.history[len - 1];
 
         if (currentBoard.status[0] !== '0') {
-            if (currentBoard.status[0] == currentBoard.status[1] && currentBoard.status[1] == currentBoard.status[2] && currentBoard.status[2]!=='0') {
+            if (currentBoard.status[0] == currentBoard.status[1] && currentBoard.status[1] == currentBoard.status[2] && currentBoard.status[2] !== '0') {
                 this.setState({gameStatus: 'game is over '});
             } else if (currentBoard.status[3] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[5] && currentBoard.status[3] !== '0') {
                 this.setState({gameStatus: 'game is over '});
@@ -93,30 +77,26 @@ class App extends React.Component<IAppProps, IAppState> {
             } else if (currentBoard.status[6] == currentBoard.status[4] && currentBoard.status[4] == currentBoard.status[2] && currentBoard.status[6] !== '0') {
                 this.setState({gameStatus: 'game is over'})
             }
-            return false;
+            return true;
         }
-        return true;
+        return false;
     };
 
     flipCurrentSymbol = (symbol: string): string => {
         return symbol === 'O' ? 'X' : 'O';
     };
 
-    /**
-     * deterimine this grid could be filled or not
-     */
-    isSetable = (index: number) => {
-        const len = this.state.history.length;
-        const current = this.state.history[len - 1];
-        return current.status[index] == '0';
-    };
 
     /**
      * time travel
      */
     handleGoBack = () => {
         const length = this.state.history.length;
-        const previousBoard = this.state.history[length - 1 - 1];
+
+        let previousBoard = null;
+        if (length >= 2) {
+            previousBoard = this.state.history[length - 1 - 1];
+        }
 
         // this.setState({history: previousBoard})
     };
@@ -132,7 +112,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
                 <button style={{marginTop: '20px'}} onClick={this.handleGoBack}>go back</button>
                 <div>
-                    {this.state.msg}
+                    <span style={{color: 'red'}}>{this.state.msg}</span>
                 </div>
             </div>
         )
