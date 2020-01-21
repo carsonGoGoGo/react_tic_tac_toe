@@ -1,5 +1,9 @@
 import React from 'react';
 import './App.css';
+import {UserLogin} from "./UserLogin";
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 interface IBoard {
     status: string[];
@@ -114,6 +118,8 @@ class App extends React.Component<IAppProps, IAppState> {
                 <div>
                     <span style={{color: 'red'}}>{this.state.msg}</span>
                 </div>
+
+                <UserLogin />
             </div>
         )
     }
