@@ -17,5 +17,9 @@ export var userSchema = new Schema({
 
 const db = mongoose.connection;
 db.on('error', function () {
-    
+
+});
+
+mongoose.connect('mongodb://localhost/myTest').then(()=>{
+    console.log("connect to db successfully");
 });
