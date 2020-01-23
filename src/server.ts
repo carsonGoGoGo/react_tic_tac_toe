@@ -6,10 +6,9 @@ const db_url = 'mongodb://localhost/myTest';
 /**
  * 连接到数据库
  */
-mongoose.connect(db_url);
 
 mongoose.connection.on('connected', function () {
-
+    mongoose.connect(db_url);
     console.log("connect to db successfully");
 
     function saveUser() {
