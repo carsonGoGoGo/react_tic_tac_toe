@@ -1,40 +1,44 @@
-import * as mongoose from 'mongoose'
 import {Schema} from 'mongoose'
+import mongoose = require("mongoose");
 
-const db_url = 'mongodb://localhost/myTest';
+
+const db_url = 'mongodb://localhost/test';
 
 /**
- * 连接到数据库
+ * connect to db
  */
 
-mongoose.connection.on('connected', function () {
-    mongoose.connect(db_url);
-    console.log("connect to db successfully");
-
-    function saveUser() {
-        var userSchema = new Schema({
-            user_name: String,
-            email: String,
-            password: String,
-            city: String
-        });
-
-        var userModel = mongoose.model('UserName', userSchema);
-        var myFirstUser = new userModel({
-            user_name: 'putilaozu',
-            email: 'putilaozu@qq.com',
-            password: '12345',
-            city: 'heaven'
-        });
-        myFirstUser.save(function (error, rst) {
-            if (error) {
-                console.log('save error 00');
-            } else {
-                return "rst" + rst;
-            }
-        })
+mongoose.connect(db_url, (err) => {
+    if (err) {
+        console.log("connection failed")
+    } else {
+        console.log("connect to db successfully");
+        saveUser();
     }
-
-
-    saveUser();
 });
+function saveUser() {
+    var connection = mongoose.createConnection(db_url);
+    var userSchema = new Schema({
+        user_name: String,
+        email: String,
+        password: String,
+        city: String
+    });
+    var UserMode = connection.model('User', userSchema);
+
+    var myFirstUser = new UserMode({
+        user_name: 'putilaozu',
+        email: 'putilaozu@qq.com',
+        password: '12345',
+        city: 'heaven'
+    });
+
+
+    return myFirstUser.save(function (error, rst) {
+        if (error) {
+            console.log(error);
+        } else {
+            return "rst" + rst;
+        }
+    })
+};
