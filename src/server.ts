@@ -8,18 +8,38 @@ export interface IUser {
     city: string;
 }
 
-export var userSchema = new Schema({
-    userName: String,
-    email: String,
-    password: String,
-    city: String
-});
 
 const db = mongoose.connection;
-db.on('error', function () {
 
-});
+const db_url = 'mongodb://localhost/myTest';
 
-mongoose.connect('mongodb://localhost/myTest').then(()=>{
+/**
+ * 连接到数据库
+ */
+mongoose.connect(db_url).then(()=>{
     console.log("connect to db successfully");
+
+    var userSchema = new Schema({
+        userName: String,
+        email: String,
+        password: String,
+        city: String
+    });
+
+    var userModel = mongoose.model('UserName', userSchema);
+
+
+    var myFirstUser = new userModel({
+        userName: 'putilaozu',
+        email: 'putilaozu@qq.com',
+        password: '12345',
+        city: 'heaven'
+    });
+
+    myFirstUser.save(function(error){
+        console.log('save error');
+    })
+
+
+
 });
