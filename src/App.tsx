@@ -13,6 +13,7 @@ interface IAppProps {
 
 }
 
+
 interface IAppState {
     currentSymbol: string;
     gameStatus: string;
