@@ -30,6 +30,7 @@ function insertThenRemove(insertFn:Function, removeFn:Function) {
 
 }
 
+
 /**
  * insert document
  */
