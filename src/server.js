@@ -15,15 +15,17 @@ mongoose.connect(db_url, function (err) {
         saveUser();
     }
 });
+/**
+ * insert document
+ */
 function saveUser() {
-    var connection = mongoose.createConnection(db_url);
     var userSchema = new mongoose_1.Schema({
         user_name: String,
         email: String,
         password: String,
         city: String
     });
-    var UserMode = connection.model('User', userSchema);
+    var UserMode = mongoose.model('User', userSchema);
     var myFirstUser = new UserMode({
         user_name: 'putilaozu',
         email: 'putilaozu@qq.com',
@@ -35,8 +37,23 @@ function saveUser() {
             console.log(error);
         }
         else {
-            return "rst" + rst;
+            return "successfully saved" + rst;
         }
     });
 }
 ;
+/**
+ * update document
+ */
+function updateDocument() {
+}
+/**
+ * remove all documents
+ */
+function removeAllDocuments() {
+}
+/**
+ * query one document
+ */
+function queryOneDocument() {
+}

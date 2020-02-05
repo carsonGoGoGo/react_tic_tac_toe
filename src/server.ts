@@ -16,15 +16,19 @@ mongoose.connect(db_url, (err) => {
         saveUser();
     }
 });
+
+/**
+ * insert document
+ */
 function saveUser() {
-    var connection = mongoose.createConnection(db_url);
     var userSchema = new Schema({
         user_name: String,
         email: String,
         password: String,
         city: String
     });
-    var UserMode = connection.model('User', userSchema);
+
+    var UserMode =mongoose.model('User', userSchema);
 
     var myFirstUser = new UserMode({
         user_name: 'putilaozu',
@@ -33,12 +37,34 @@ function saveUser() {
         city: 'heaven'
     });
 
-
     return myFirstUser.save(function (error, rst) {
         if (error) {
             console.log(error);
         } else {
-            return "rst" + rst;
+            return "successfully saved" + rst;
         }
     })
 };
+
+
+/**
+ * update document
+ */
+function updateDocument(){
+
+}
+
+/**
+ * remove all documents
+ */
+function removeAllDocuments(){
+
+}
+
+/**
+ * query one document
+ */
+function queryOneDocument(){
+
+}
+
